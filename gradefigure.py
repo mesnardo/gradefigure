@@ -264,26 +264,27 @@ def check_figure(fig, ax_items=[], ax_data=[], title_or_text=False):
   >>> ax.set_title('my title')
   >>> ax.plot(x, y1)
   >>> check_figure(fig, \
-  ...              ax_items=['title', 'xlabel', 'ylabel'], \
+  ...              ax_items=['title', 'xlabel', 'ylabel', 'legend'], \
   ...              ax_data=[(x, y1), (x, y2)])
-  {'items': {'title': True, 'xlabel': False, 'ylabel': False},
+  {'items': {'title': True, 'xlabel': False, 'ylabel': False, , 'legend': False},
   'data': {0: True, 1: False}}
   >>> ax.set_xlabel('x')
   >>> ax.set_ylabel('y')
-  >>> ax.scatter(x, y2)
+  >>> ax.scatter(x, y2, label='data')
+  >>> ax.legend()
   >>> check_figure(fig, \
-  ...              ax_items=['title', 'xlabel', 'ylabel'], \
+  ...              ax_items=['title', 'xlabel', 'ylabel', 'legend'], \
   ...              ax_data=[(x, y1), (x, y2)])
-  {'items': {'title': True, 'xlabel': True, 'ylabel': True},
+  {'items': {'title': True, 'xlabel': True, 'ylabel': True, 'legend': True},
   'data': {0: True, 1: True}}
   """
   # Check provided items are supported.
-  supported_ax_items = {'xlabel', 'ylabel', 'title'}
+  supported_ax_items = {'xlabel', 'ylabel', 'title', 'legend'}
   if len(set(ax_items) - supported_ax_items) > 0:
     raise ValueError(f'Supported ax_items are {supported_ax_items}')
   # Create a functions dispatcher for Axes items.
   ax_items_dispatcher = {'xlabel': ax_has_xlabel, 'ylabel': ax_has_ylabel,
-                         'title': ax_has_title}
+                         'title': ax_has_title, 'legend': ax_has_legend}
   log = {'items': {}, 'data': {}}
   # Loop over the Axes objects of the Figure.
   for ax in fig.get_axes():
