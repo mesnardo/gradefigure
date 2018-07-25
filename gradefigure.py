@@ -95,6 +95,45 @@ def ax_has_title(ax):
   """
   return len(ax.get_title()) > 0
 
+def ax_has_legend(ax):
+  """
+  Checks the presence of a labeles and Legend instance in a
+  matplotlib.axes.Axes object.
+  Returns True if there are labels and Legend instances exist.
+
+  Parameters
+  ----------
+  ax: matplotlib.axes.Axes
+  The Axes object to inspect.
+
+  Returns
+  -------
+  ans: boolean
+  True if there are labels and Legend instances exist; otherwise False.
+
+  Examples
+  --------
+  >>> fig, ax = pyplot.subplots()
+  >>> ax_has_legend(ax)
+  False
+  >>> fig, ax = pyplot.subplots()
+  >>> ax.plot([0, 1, 2], label='a')
+  >>> ax_has_legend(ax)
+  False
+  >>> fig, ax = pyplot.subplots()
+  >>> ax.plot([0, 1, 2], label='a')
+  >>> ax.legend();
+  >>> ax_has_legend(ax)
+  True
+  """
+      
+  len_list_lab = len(ax.get_legend_handles_labels()[1])
+  val = ax.get_legend()
+
+  if ((len_list_lab > 0) and (val != None)):        
+      return True
+  return False
+
 
 def ax_has_data(ax, xref, yref):
   """
