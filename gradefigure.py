@@ -8,7 +8,7 @@ from matplotlib import text
 
 def ax_has_xlabel(ax):
   """
-  Checks the presence of a xlabel in an matplotlib.axes.Axes object.
+  Checks the presence of a xlabel in a matplotlib.axes.Axes object.
   Returns True if there is a non-empty string value for the xlabel.
 
   Parameters
@@ -38,7 +38,7 @@ def ax_has_xlabel(ax):
 
 def ax_has_ylabel(ax):
   """
-  Checks the presence of a ylabel in an matplotlib.axes.Axes object.
+  Checks the presence of a ylabel in a matplotlib.axes.Axes object.
   Returns True if there is a non-empty string value for the ylabel.
 
   Parameters
@@ -68,7 +68,7 @@ def ax_has_ylabel(ax):
 
 def ax_has_title(ax):
   """
-  Checks the presence of a title in an matplotlib.axes.Axes object.
+  Checks the presence of a title in a matplotlib.axes.Axes object.
   Returns True if there is a non-empty string value for the title.
 
   Parameters
@@ -97,7 +97,7 @@ def ax_has_title(ax):
 
 def ax_has_legend(ax):
   """
-  Checks the presence of a labeles and Legend instance in a
+  Checks the presence of a labels and Legend instance in a
   matplotlib.axes.Axes object.
   Returns True if there are labels and Legend instances exist.
 
@@ -138,7 +138,7 @@ def ax_has_legend(ax):
 def ax_has_data(ax, xref, yref):
   """
   Checks for the presence of the data (xref, yref)
-  in an matplotlib.axes.Axes object.
+  in a matplotlib.axes.Axes object.
 
   Parameters
   ----------
