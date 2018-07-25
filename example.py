@@ -24,7 +24,7 @@ ax.scatter(x2, y2, label='random')
 ax.legend(loc='best', prop={'size': 14})
 
 # Grade the figure.
-grade, log = grade_figure(fig, ax_items=['title', 'xlabel', 'ylabel'],
+grade, log = grade_figure(fig, ax_items=['title', 'xlabel', 'ylabel', 'legend'],
                           ax_data=[(x1, y1), (x2, y2)])
 print(grade)
 print(log)
@@ -41,7 +41,7 @@ pyplot.legend(loc='best', prop={'size': 14})
 
 # Grade the figure.
 fig = list(map(pyplot.figure, pyplot.get_fignums()))[-1]
-grade, log = grade_figure(fig, ax_items=['title', 'xlabel', 'ylabel'],
+grade, log = grade_figure(fig, ax_items=['title', 'xlabel', 'ylabel', 'legend'],
                           ax_data=[(x1, y1), (x2, y2)])
 print(grade)
 print(log)
