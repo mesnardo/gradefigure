@@ -343,12 +343,12 @@ def grade_figure(fig, ax_items=[], ax_data=[], title_or_text=False,
   >>> ax.set_title('my title')
   >>> ax.set_xlabel('x')
   >>> ax.set_ylabel('y')
-  >>> ax.plot(x, y)
+  >>> ax.plot(x, y, label='data')
   >>> grade_figure(fig, \
-  ...              ax_items=['title', 'xlabel', 'ylabel'], \
+  ...              ax_items=['title', 'xlabel', 'ylabel', 'legend'], \
   ...              ax_data=[(x, y)])
-  (100.0, {'items': {'title': True, 'xlabel': True, 'ylabel': True},
-  'data': {0: True}})
+  (100.0, {'items': {'title': True, 'xlabel': True, 'ylabel': True, 
+  'legend': True}, 'data': {0: True}})
   """
   log = check_figure(fig, ax_items=ax_items, ax_data=ax_data,
                      title_or_text=title_or_text)
