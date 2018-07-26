@@ -95,6 +95,7 @@ def ax_has_title(ax):
   """
   return len(ax.get_title()) > 0
 
+
 def ax_has_legend(ax):
   """
   Checks the presence of a labels and Legend instance in a
@@ -104,35 +105,42 @@ def ax_has_legend(ax):
   Parameters
   ----------
   ax: matplotlib.axes.Axes
-  The Axes object to inspect.
+    The Axes object to inspect.
 
   Returns
   -------
   ans: boolean
-  True if there are labels and Legend instances exist; otherwise False.
+    True if there are labels and Legend instances exist; otherwise False.
 
   Examples
   --------
   >>> fig, ax = pyplot.subplots()
   >>> ax_has_legend(ax)
   False
+  >>> ax.legend()
+  >>> ax_has_legend(ax)
+  False
+  >>> ax.plot([0, 1, 2])
+  >>> ax_has_legend(ax)
+  False
+  >>> ax.plot([0, 1, 2], label='')
+  >>> ax_has_legend(ax)
+  False
+  >>> ax.plot([0, 1, 2], label='a')
+  >>> ax_has_legend(ax)
+  True
   >>> fig, ax = pyplot.subplots()
+  >>> ax_has_legend(ax)
+  False
   >>> ax.plot([0, 1, 2], label='a')
   >>> ax_has_legend(ax)
   False
-  >>> fig, ax = pyplot.subplots()
-  >>> ax.plot([0, 1, 2], label='a')
-  >>> ax.legend();
+  >>> ax.legend()
   >>> ax_has_legend(ax)
   True
   """
-      
-  len_list_lab = len(ax.get_legend_handles_labels()[1])
-  val = ax.get_legend()
-
-  if ((len_list_lab > 0) and (val != None)):        
-      return True
-  return False
+  _, labels = ax.get_legend_handles_labels()
+  return ax.get_legend() is not None and len(labels) > 0
 
 
 def ax_has_data(ax, xref, yref):
@@ -266,7 +274,7 @@ def check_figure(fig, ax_items=[], ax_data=[], title_or_text=False):
   >>> check_figure(fig, \
   ...              ax_items=['title', 'xlabel', 'ylabel', 'legend'], \
   ...              ax_data=[(x, y1), (x, y2)])
-  {'items': {'title': True, 'xlabel': False, 'ylabel': False, , 'legend': False},
+  {'items': {'title': True, 'xlabel': False, 'ylabel': False, 'legend': False},
   'data': {0: True, 1: False}}
   >>> ax.set_xlabel('x')
   >>> ax.set_ylabel('y')
@@ -347,7 +355,7 @@ def grade_figure(fig, ax_items=[], ax_data=[], title_or_text=False,
   >>> grade_figure(fig, \
   ...              ax_items=['title', 'xlabel', 'ylabel', 'legend'], \
   ...              ax_data=[(x, y)])
-  (100.0, {'items': {'title': True, 'xlabel': True, 'ylabel': True, 
+  (100.0, {'items': {'title': True, 'xlabel': True, 'ylabel': True,
   'legend': True}, 'data': {0: True}})
   """
   log = check_figure(fig, ax_items=ax_items, ax_data=ax_data,

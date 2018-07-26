@@ -14,7 +14,8 @@ class TestGradeFigure(unittest.TestCase):
     self.y1 = numpy.exp(self.x**2)
     self.y2 = numpy.sin(self.x)
 
-  def _figure_vanilla(self, title=None, xlabel=None, ylabel=None, data=[]):
+  def _figure_vanilla(self, title='', xlabel='', ylabel='', legend=False,
+                      data=[], labels=()):
     pyplot.figure()
     if title:
       pyplot.title(title)
@@ -22,12 +23,16 @@ class TestGradeFigure(unittest.TestCase):
       pyplot.xlabel(xlabel)
     if ylabel:
       pyplot.ylabel(ylabel)
-    for (x, y) in data:
-      pyplot.plot(x, y)
+    for i, (x, y) in enumerate(data):
+      label = '' if len(labels) <= i else labels[i]
+      pyplot.plot(x, y, label=label)
+    if legend:
+      pyplot.legend()
     fig = list(map(pyplot.figure, pyplot.get_fignums()))[-1]
     return fig
 
-  def _figure_complex(self, title=None, xlabel=None, ylabel=None, data=[]):
+  def _figure_complex(self, title='', xlabel='', ylabel='', legend=False,
+                      data=[], labels=()):
     fig = pyplot.figure(figsize=(6.0, 6.0))
     ax = fig.add_axes((0.0, 0.1, 0.8, 0.8))
     if xlabel:
@@ -35,8 +40,10 @@ class TestGradeFigure(unittest.TestCase):
     if ylabel:
       ax.set_ylabel(ylabel, fontsize=16)
     for i, (x, y) in enumerate(data):
-      ax.plot(x, y, label=f'data {i}', linewidth=1, linestyle='-')
-    ax.legend(loc='upper left', prop={'size': 16})
+      label = '' if len(labels) <= i else labels[i]
+      ax.plot(x, y, label=label, linewidth=1, linestyle='-')
+    if legend:
+      ax.legend(loc='upper left', prop={'size': 16})
     if title:
       fig.text(0.0, 0.0, title,
                horizontalalignment='left', multialignment='left', fontsize=14)
@@ -66,6 +73,21 @@ class TestGradeFigure(unittest.TestCase):
     fig = self._figure_vanilla(ylabel='', data=[(self.x, self.y1)])
     self.assertFalse(gradefigure.ax_has_ylabel(fig.get_axes()[0]))
 
+  def test_ax_has_legend(self):
+    fig = self._figure_vanilla(legend=True,
+                               data=[(self.x, self.y1)], labels=('data 1'))
+    self.assertTrue(gradefigure.ax_has_legend(fig.get_axes()[0]))
+    fig = self._figure_vanilla(legend=False,
+                               data=[(self.x, self.y1)], labels=('data 1'))
+    self.assertFalse(gradefigure.ax_has_legend(fig.get_axes()[0]))
+    fig = self._figure_vanilla(legend=True,
+                               data=[(self.x, self.y1)], labels=(''))
+    self.assertFalse(gradefigure.ax_has_legend(fig.get_axes()[0]))
+    fig = self._figure_vanilla(legend=True, data=[(self.x, self.y1)])
+    self.assertFalse(gradefigure.ax_has_legend(fig.get_axes()[0]))
+    fig = self._figure_vanilla(data=[(self.x, self.y1)])
+    self.assertFalse(gradefigure.ax_has_legend(fig.get_axes()[0]))
+
   def test_ax_has_data(self):
     fig = self._figure_vanilla(data=[(self.x, self.y1)])
     self.assertTrue(gradefigure.ax_has_data(fig.get_axes()[0],
@@ -80,11 +102,13 @@ class TestGradeFigure(unittest.TestCase):
 
   def test_gradefigure_vanilla(self):
     fig = self._figure_vanilla(title='title', xlabel='x', ylabel='y',
-                               data=[(self.x, self.y1), (self.x, self.y2)])
+                               legend=True,
+                               data=[(self.x, self.y1), (self.x, self.y2)],
+                               labels=('data 1', 'data 2'))
     ax_items, ax_data = [], []
     ans, _ = gradefigure.grade_figure(fig, ax_items=ax_items, ax_data=ax_data)
     self.assertIsNone(ans)
-    for item in ['title', 'xlabel', 'ylabel']:
+    for item in ['title', 'xlabel', 'ylabel', 'legend']:
       ax_items.append(item)
       ans, _ = gradefigure.grade_figure(fig,
                                         ax_items=ax_items, ax_data=ax_data)
@@ -97,11 +121,13 @@ class TestGradeFigure(unittest.TestCase):
 
   def test_gradefigure_complex(self):
     fig = self._figure_complex(title='title', xlabel='x', ylabel='y',
-                               data=[(self.x, self.y1), (self.x, self.y2)])
+                               legend=True,
+                               data=[(self.x, self.y1), (self.x, self.y2)],
+                               labels=('data 1', 'data 2'))
     ax_items, ax_data = [], []
     ans, _ = gradefigure.grade_figure(fig, ax_items=ax_items, ax_data=ax_data)
     self.assertIsNone(ans)
-    for item in ['title', 'xlabel', 'ylabel']:
+    for item in ['title', 'xlabel', 'ylabel', 'legend']:
       ax_items.append(item)
       ans, _ = gradefigure.grade_figure(fig,
                                         ax_items=ax_items, ax_data=ax_data,
